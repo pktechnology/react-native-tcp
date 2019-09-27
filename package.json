@@ -1,5 +1,5 @@
 {
-  "name": "@staltz/react-native-tcp",
+  "name": "react-native-tcp",
   "version": "3.3.1",
   "description": "node's net API for react-native",
   "main": "TcpSockets.js",
@@ -30,9 +30,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/staltz/react-native-tcp/issues"
+    "url": "https://github.com/trenton05/react-native-tcp/issues"
   },
-  "homepage": "https://github.com/staltz/react-native-tcp",
+  "homepage": "https://github.com/trenton05/react-native-tcp",
   "peerDependencies": {
     "react-native": ">=0.40.0"
   },
@@ -55,7 +55,7 @@
   "rnpm": {
     "android": {
       "packageName": "react-native-tcp",
-      "packageFolder": "@staltz/react-native-tcp"
+      "packageFolder": "react-native-tcp"
     }
   }
 }
