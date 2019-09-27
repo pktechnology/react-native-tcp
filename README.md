@@ -2,8 +2,6 @@
 
 node's [net](https://nodejs.org/api/net.html) API in React Native
 
-This module is used by [Peel](http://www.peel.com/)
-
 ## Install
 
 * Create a new react-native project. [Check react-native getting started](http://facebook.github.io/react-native/docs/getting-started.html#content)
@@ -11,12 +9,7 @@ This module is used by [Peel](http://www.peel.com/)
 * In your project dir:
 
 ```
-npm install react-native-tcp --save
-```
-
-__Note for iOS:__ If your react-native version < 0.40 install with this tag instead:
-```
-npm install react-native-tcp@3.1.0 --save
+npm install @staltz/react-native-tcp --save
 ```
 ## if using Cocoapods
 
@@ -30,7 +23,7 @@ pod 'TcpSockets', :path => '../node_modules/react-native-tcp'
 ## Link in the native dependency
 
 ```
-react-native link react-native-tcp
+react-native link @staltz/react-native-tcp
 ```
 
 ## Additional dependencies
@@ -48,12 +41,13 @@ react-native link react-native-tcp
 
 ### package.json
 
-_only if you want to write require('net') in your javascript_
+_only if you want to write require('net') or require('tls') in your javascript_
 
 ```json
 {
-  "browser": {
-    "net": "react-native-tcp"
+  "react-native": {
+    "net": "@staltz/react-native-tcp",
+    "tls": "@staltz/react-native-tcp/tls"
   }
 }
 ```
@@ -64,8 +58,10 @@ _see/run [index.ios.js/index.android.js](examples/rctsockets) for a complete exa
 
 ```js
 var net = require('net');
-// OR, if not shimming via package.json "browser" field:
-// var net = require('react-native-tcp')
+var net = require('tls');
+// OR, if not shimming via package.json "react-native" field:
+// var net = require('@staltz/react-native-tcp')
+// var tls = require('@staltz/react-native-tcp/tls')
 
 var server = net.createServer(function(socket) {
   socket.write('excellent!');
@@ -82,12 +78,18 @@ client.on('data', function(data) {
 });
 ```
 
-### TODO
+### TLS support
 
-add select tests from node's tests for net
+TLS is only supported in the client interface. To use TLS, use the `tls.connect()`
+syntax and not `socket = new tls.Socket()` syntax.
 
-PR's welcome!
+```
+const socket = tls.connect({port: 50002, host:'electrum.villocq.com', rejectUnauthorized: false}, () => {
+  socket.write('{ "id": 5, "method": "blockchain.estimatefee", "params": [2] }\n')
+  console.log('Connected')
+})
 
-
-
-_originally forked from [react-native-udp](https://github.com/tradle/react-native-udp)_
+socket.on('data', (data) => {
+  console.log('data:' + data.toString('ascii'))
+})
+```
